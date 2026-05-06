@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Burgo de Osma - Guía Turística</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8B6F47;
+            --secondary: #D4A574;
+            --accent: #C41E3A;
+            --dark: #2C2416;
+            --light: #F5F1E8;
+            --border: #D4AF8E;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* HEADER */
+        .header {
+            position: relative;
+            height: 350px;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .header-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.85;
+        }
+
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 40px 20px;
+            color: white;
+        }
+
+        .header-title {
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .header-subtitle {
+            font-size: clamp(0.9rem, 3vw, 1.3rem);
+            opacity: 0.95;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+        }
+
+        /* NAVEGACIÓN */
+        .nav-container {
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-tabs {
+            display: flex;
+            overflow-x: auto;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+            list-style: none;
+            gap: 0;
+        }
+
+        .nav-tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .nav-tabs::-webkit-scrollbar-track {
+            background: var(--light);
+        }
+
+        .nav-tabs::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        .nav-tabs li {
+            flex: 0 0 auto;
+        }
+
+        .nav-tabs button {
+            padding: 16px 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-tabs button:hover {
+            background-color: #f0ede5;
+            border-bottom-color: var(--secondary);
+        }
+
+        .nav-tabs button.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+            background-color: rgba(196, 30, 58, 0.05);
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* SECCIONES */
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 15px;
+        }
+
+        /* CARDS */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--secondary);
+        }
+
+        .card:hover {
+            box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+            transform: translateY(-3px);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .card-subtitle {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .card-content {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .highlight {
+            background-color: #FFF3CD;
+            padding: 15px;
+            border-left: 4px solid var(--accent);
+            margin: 15px 0;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .curiosity-list {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .curiosity-list li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #555;
+        }
+
+        .curiosity-list li:before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* SECCIÓN GASTRONOMÍA */
+        .gastro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .gastro-card {
+            background: linear-gradient(135deg, var(--light) 0%, white 100%);
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .gastro-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(139, 111, 71, 0.15);
+        }
+
+        .gastro-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .gastro-card h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        /* WIDGET TIEMPO */
+        .weather-widget {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            text-align: center;
+            margin-top: 40px;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .weather-widget h3 {
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .weather-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .weather-item {
+            background: rgba(255,255,255,0.15);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .weather-item .label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .weather-item .value {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .weather-icon {
+            font-size: 2.5rem;
+            margin: 10px 0;
+        }
+
+        .loading {
+            opacity: 0.7;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .nav-tabs button {
+                padding: 14px 16px;
+                font-size: 0.85rem;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .gastro-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .weather-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+        }
+
+        .footer p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* RESTAURANTE DESTACADO */
+        .restaurant-featured {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+
+        .restaurant-featured h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .restaurant-featured .reason {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .restaurant-featured .reason:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <img src="./elburgodeosma.jpg" alt="El Burgo de Osma" class="header-img">
+        <div class="header-overlay">
+            <h1 class="header-title">🏛️ El Burgo de Osma</h1>
+            <p class="header-subtitle">Descubre los secretos de la joya medieval de Castilla</p>
+        </div>
+    </header>
+
+    <!-- NAVEGACIÓN -->
+    <nav class="nav-container">
+        <ul class="nav-tabs">
+            <li><button class="nav-btn active" data-section="catedral">La Catedral</button></li>
+            <li><button class="nav-btn" data-section="universidad">Universidad</button></li>
+            <li><button class="nav-btn" data-section="plaza">Plaza Mayor</button></li>
+            <li><button class="nav-btn" data-section="murallas">Murallas</button></li>
+            <li><button class="nav-btn" data-section="gastronomia">Gastronomía</button></li>
+            <li><button class="nav-btn" data-section="restaurantes">Restaurantes</button></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- SECCIÓN: LA CATEDRAL -->
+        <section id="catedral" class="section active">
+            <h2 class="section-title">🏛️ La Catedral: El Gigante de Piedra</h2>
+            
+            <div class="card">
+                <div class="card-subtitle">Más de 900 años de historia</div>
+                <h3 class="card-title">Un Puzle de Estilos Arquitectónicos</h3>
+                <p class="card-content">
+                    Desde 1101 hasta el XVIII, la Catedral de Osma es un viaje a través de los siglos. Construida sobre una anterior románica que se quedó pequeña porque el Burgo se convirtió en un centro de poder brutal. Lo que ves hoy es mayoritariamente del siglo XIII: una nave central gótica que busca elevar el espíritu hacia lo divino. La torre barroca de 72 metros, terminada en 1744, es un faro de fe visible desde toda la meseta.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-subtitle">Tesoros medievales</div>
+                <h3 class="card-title">El Beato de Osma (1086)</h3>
+                <p class="card-content">
+                    Custodiado en la Catedral, este manuscrito es una de las representaciones del Apocalipsis más bellas de Europa. Sus ilustraciones en azules y rojos intensos parecen neones medievales. Una joya que lleva siglos guardando los misterios del fin del mundo.
+                </p>
+                <div class="highlight">
+                    <strong>🔍 La Anécdota del "Olor de Santidad":</strong> Se dice que cuando en el siglo XIII trasladaron el cuerpo de San Pedro de Osma a su nuevo sepulcro, de la tumba brotó un aroma a lirios y rosas frescas que inundó el valle, a pesar de que el santo llevaba muerto cien años.
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Curiosidades que Debes Saber</h3>
+                <ul class="curiosity-list">
+                    <li><strong>San Pedro Austero:</strong> El santo patrón era un monje francés tan austero que prefería dormir en el suelo de piedra antes que en una cama.</li>
+                    <li><strong>La Torre de los Cuatro Vientos:</strong> Se financió en parte con dinero llegado de las Américas, por eso es tan ostentosa; querían un "faro de fe" visible desde toda la meseta.</li>
+                    <li><strong>Horarios de visita:</strong> Abierto todos los días. Entrada: 3€. Consulta horarios según temporada.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: UNIVERSIDAD -->
+        <section id="universidad" class="section">
+            <h2 class="section-title">📚 Universidad de Santa Catalina: El Harvard de Castilla</h2>
+            
+            <div class="card">
+                <div class="card-subtitle">Fundada en 1550</div>
+                <h3 class="card-title">Motor Intelectual de España</h3>
+                <p class="card-content">
+                    Fundada por el Obispo Pedro Álvarez de Acosta, fue el corazón del conocimiento español hasta 1841. Por sus aulas pasaron personajes como Jovellanos. El edificio se diseñó con un patio de doble arquería que es una joya de la geometría renacentista, pensado para que los estudiantes debatieran mientras caminaban bajo sus arcos.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Historias de Estudiantes Medievales</h3>
+                <ul class="curiosity-list">
+                    <li><strong>El Ego del Obispo Acosta:</strong> Si miras la fachada plateresca, verás su escudo repetido tantas veces que parece un patrón de papel pintado; quería que nadie olvidara quién pagó la obra.</li>
+                    <li><strong>Exámenes Legendarios:</strong> Eran legendarios por su crueldad. Los alumnos debían defender su tesis durante horas frente a un tribunal que buscaba humillarlos. Muchos pasaban la noche previa rezando de rodillas en la capilla.</li>
+                    <li><strong>El Patio de los Sabios (Hoy Hotel):</strong> Puedes entrar y tomarte algo en el patio, sintiéndote como una estudiante de leyes del siglo XVI mientras consultas tus objetivos.</li>
+                </ul>
+            </div>
+
+            <div class="highlight">
+                <strong>💡 Consejo del Viajero:</strong> No te pierdas el patio renacentista. Siéntate un momento y visualiza a estudiantes del siglo XVI debatiendo filosofía bajo los mismos arcos.
+            </div>
+        </section>
+
+        <!-- SECCIÓN: PLAZA MAYOR -->
+        <section id="plaza" class="section">
+            <h2 class="section-title">🏘️ La Plaza Mayor: Escenario del Poder</h2>
+            
+            <div class="card">
+                <div class="card-subtitle">Centro neurálgico medieval</div>
+                <h3 class="card-title">Una de las Mejores Plazas Mayores de Castilla</h3>
+                <p class="card-content">
+                    Es el corazón de El Burgo. Aquí se concentraba el poder civil (Ayuntamiento), el religioso y el asistencial (Hospital de San Agustín). Los soportales eran el lugar donde se leían edictos reales y se cerraban tratos comerciales de lana y trigo que enriquecieron la región.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Secretos Arquitectónicos</h3>
+                <ul class="curiosity-list">
+                    <li><strong>El Hospital Real (1694):</strong> Tiene dos torres que imitan al Alcázar de Madrid. El objetivo era que el edificio de caridad pareciera un palacio para impresionar a los viajeros.</li>
+                    <li><strong>Los Toros en la Plaza:</strong> Antiguamente era un coso taurino. Se cerraban las calles con maderas y los nobles veían las corridas desde los balcones de hierro forjado. Si te fijas bien en los soportales, verás marcas en las piedras donde se encajaban las vigas.</li>
+                    <li><strong>El Pueblo de los Dos Nombres:</strong> El Burgo es la ciudad moderna y Osma es el núcleo antiguo cerca del castillo. Están unidos, pero históricamente eran como el "cliente" y el "proveedor".</li>
+                </ul>
+            </div>
+
+            <div class="highlight">
+                <strong>🎭 Experiencia Recomendada:</strong> Tómate algo en los soportales al atardecer. Las sombras de los arcos crean un efecto mágico que transporta directamente al Siglo de Oro.
+            </div>
+        </section>
+
+        <!-- SECCIÓN: MURALLAS -->
+        <section id="murallas" class="section">
+            <h2 class="section-title">🛡️ Murallas, Castillo y el Enigma de Uxama</h2>
+            
+            <div class="card">
+                <div class="card-subtitle">2.000 años de historia superpuesta</div>
+                <h3 class="card-title">Frontera entre Mundos</h3>
+                <p class="card-content">
+                    Las murallas del siglo XV protegen una ciudad que fue frontera clave entre cristianos y musulmanes. Sobre el cerro se encuentra Uxama Argaela, la ciudad celtíbera y romana original, donde todavía puedes ver cisternas de hace 2.000 años. El castillo, del siglo X, fue una pieza clave en la línea defensiva del Duero.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Descubrimientos en la Piedra</h3>
+                <ul class="curiosity-list">
+                    <li><strong>Parches Arqueológicos:</strong> Si caminas por el paseo del río Ucero, verás que la muralla tiene "parches". Son piedras aprovechadas de la antigua ciudad romana de Uxama. Estás tocando historia de hace dos milenios.</li>
+                    <li><strong>El Pasadizo Secreto:</strong> La leyenda dice que el Castillo tiene un túnel secreto excavado en la roca que baja hasta el río para que los soldados pudieran beber agua durante los asedios sin ser vistos.</li>
+                    <li><strong>El Paseo del Ucero:</strong> Es el mejor mirador. El camino desde la Puerta de San Miguel hasta el puente romano es el lugar donde mejor se aprecia la armonía entre la naturaleza y la piedra.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: GASTRONOMÍA -->
+        <section id="gastronomia" class="section">
+            <h2 class="section-title">🍖 Antropología del Sabor: La Gastronomía Soriana</h2>
+            
+            <div class="gastro-grid">
+                <div class="gastro-card">
+                    <div class="gastro-icon">🥓</div>
+                    <h3>El Ritual del Torrezno</h3>
+                    <p>No es panceta, es ingeniería. La corteza debe tener burbujas y crujir de forma que se oiga en la mesa de al lado, mientras la carne debe estar tierna como mantequilla.</p>
+                </div>
+
+                <div class="gastro-card">
+                    <div class="gastro-icon">🎉</div>
+                    <h3>Las Matanzas del Virrey</h3>
+                    <p>Es un evento de logística gastronómica único. Se recrea el rito ancestral del cerdo con dulzaineros y un banquete que es una lección de historia viva.</p>
+                </div>
+
+                <div class="gastro-card">
+                    <div class="gastro-icon">🍰</div>
+                    <h3>Dulces de Convento</h3>
+                    <p>Busca los "sobadillos" en las pastelerías de la Calle Mayor; son recetas de siglos que reconfortaban a los antiguos viajeros.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">🗺️ Barrios Gastronómicos</h3>
+                <ul class="curiosity-list">
+                    <li><strong>Barrio de la Catedral:</strong> Zona de historia y silencio. Ideal para una comida pausada admirando la arquitectura medieval.</li>
+                    <li><strong>Barrio de la Calle Mayor:</strong> El alma de la ciudad y epicentro del tapeo. Sus soportales son el refugio perfecto para ir probando bocados de bar en bar.</li>
+                    <li><strong>Barrio de la Universidad:</strong> Una zona más despejada, perfecta para cenas tranquilas y con un aire más contemporáneo.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: RESTAURANTES -->
+        <section id="restaurantes" class="section">
+            <h2 class="section-title">🍽️ Donde Comer en El Burgo</h2>
+            
+            <div class="restaurant-featured">
+                <h3>⭐ El Asador</h3>
+                <p style="margin: 15px 0;">El templo de los asados y las carnes de verdad. Aquí no hay trampa ni cartón: solo producto de primerísima calidad tratado con el respeto que merece la tradición castellana.</p>
+                
+                <h4 style="margin-top: 20px; margin-bottom: 10px;">¿Por qué ir?</h4>
+                <div class="reason">Es el lugar donde entiendes qué significa la gastronomía soriana a través del fuego y la tradición.</div>
+                
+                <h4 style="margin-top: 20px; margin-bottom: 10px;">Recomendación</h4>
+                <div class="reason">Déjate aconsejar por los platos del día, especialmente los que vienen directos de la brasa o el horno. Es la recompensa perfecta tras un día de turismo intenso.</div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Consejos para Comer Bien</h3>
+                <ul class="curiosity-list">
+                    <li>Prueba el cordero lechal asado: es la especialidad que define a Soria.</li>
+                    <li>Los vinos de Ribera del Duero maridarán perfectamente con cualquier plato.</li>
+                    <li>Reserva con anticipación en temporada alta, especialmente fines de semana.</li>
+                    <li>Pregunta siempre por los platos del día, suelen ser los mejores y más frescos.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- WIDGET TIEMPO -->
+        <div class="weather-widget">
+            <h3>☀️ Tiempo en El Burgo de Osma</h3>
+            <div class="weather-info" id="weatherInfo">
+                <div class="weather-item loading">
+                    <div class="label">Cargando pronóstico...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>🏛️ El Burgo de Osma | Guía Turística Interactiva</p>
+        <p style="margin-top: 10px; font-size: 0.85rem;">Descubre la joya medieval de Castilla | Soria, España</p>
+    </footer>
+
+    <script>
+        // NAVEGACIÓN
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const sections = document.querySelectorAll('.section');
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const sectionId = button.getAttribute('data-section');
+                
+                // Remover activos
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                sections.forEach(sec => sec.classList.remove('active'));
+                
+                // Añadir activos
+                button.classList.add('active');
+                document.getElementById(sectionId).classList.add('active');
+                
+                // Scroll suave
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // WIDGET TIEMPO
+        async function getWeather() {
+            try {
+                // Coordenadas de El Burgo de Osma
+                const lat = 41.7833;
+                const lon = -3.0667;
+                
+                // Usando Open-Meteo API (sin clave necesaria)
+                const response = await fetch(
+                    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&timezone=auto`
+                );
+                
+                const data = await response.json();
+                const current = data.current;
+                
+                // Interpretación del código meteorológico WMO
+                const weatherDescriptions = {
+                    0: 'Despejado',
+                    1: 'Mayormente despejado',
+                    2: 'Parcialmente nuboso',
+                    3: 'Nublado',
+                    45: 'Niebla',
+                    51: 'Llovizna',
+                    61: 'Lluvia',
+                    80: 'Aguaceros',
+                    95: 'Tormenta'
+                };
+                
+                const weatherEmojis = {
+                    0: '☀️',
+                    1: '🌤️',
+                    2: '⛅',
+                    3: '☁️',
+                    45: '🌫️',
+                    51: '🌧️',
+                    61: '🌧️',
+                    80: '⛈️',
+                    95: '⛈️'
+                };
+                
+                const weatherCode = current.weather_code;
+                const description = weatherDescriptions[weatherCode] || 'Consulta el servicio meteorológico';
+                const emoji = weatherEmojis[weatherCode] || '🌤️';
+                
+                const weatherHTML = `
+                    <div class="weather-item">
+                        <div class="weather-icon">${emoji}</div>
+                        <div class="label">Tiempo</div>
+                        <div class="value">${description}</div>
+                    </div>
+                    <div class="weather-item">
+                        <div class="label">Temperatura</div>
+                        <div class="value">${Math.round(current.temperature_2m)}°C</div>
+                    </div>
+                    <div class="weather-item">
+                        <div class="label">Humedad</div>
+                        <div class="value">${current.relative_humidity_2m}%</div>
+                    </div>
+                    <div class="weather-item">
+                        <div class="label">Viento</div>
+                        <div class="value">${Math.round(current.wind_speed_10m)} km/h</div>
+                    </div>
+                `;
+                
+                document.getElementById('weatherInfo').innerHTML = weatherHTML;
+            } catch (error) {
+                document.getElementById('weatherInfo').innerHTML = `
+                    <div class="weather-item" style="grid-column: 1/-1;">
+                        <div class="label">⚠️ No se pudo cargar el pronóstico</div>
+                        <div class="value" style="font-size: 0.9rem; margin-top: 5px;">Intenta más tarde</div>
+                    </div>
+                `;
+            }
+        }
+
+        // Cargar tiempo al iniciar
+        getWeather();
+        // Actualizar cada 30 minutos
+        setInterval(getWeather, 30 * 60 * 1000);
+    </script>
+</body>
+</html>
